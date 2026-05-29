@@ -41,6 +41,10 @@ textarea{resize:vertical;min-height:50px;line-height:1.5;}
 .input-affix input{border:none!important;box-shadow:none!important;background:transparent!important;border-radius:0!important;flex:1;min-width:0;}
 .affix-tag{background:#e4e4e4;border-left:1px solid var(--rule);padding:0 10px;font-size:11px;font-weight:600;color:#444;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;}
 .pill{margin-top:4px;padding:5px 9px;background:#e8e8e8;border-radius:4px;font-size:10.5px;color:#444;line-height:1.4;border-left:3px solid #111;}
+.req{color:#c00;font-weight:700;}
+input:required.touched:invalid,textarea:required.touched:invalid{border-color:#c00!important;box-shadow:0 0 0 3px rgba(200,0,0,.1)!important;}
+.field-error{font-size:10.5px;color:#c00;margin-top:3px;display:none;}
+input:required.touched:invalid~.field-error,textarea:required.touched:invalid~.field-error{display:block;}
 .pill strong{color:#111;font-weight:600;}
 
 /* prior-funding list builder */
@@ -120,7 +124,7 @@ body.pdf-rendering{
   box-sizing:border-box;
   padding-top:0.5in;
   padding-right:0.5in;
-  padding-bottom:0.5in;
+  padding-bottom:1.4in;
   padding-left:0.5in;
   overflow:hidden;
   page-break-after:always;
@@ -206,9 +210,14 @@ table.dh{
   padding-bottom:8pt;
 }
 
+.df-wrap{
+  position:absolute;
+  bottom:0.5in;
+  left:0.5in;
+  right:0.5in;
+}
 table.df{
   border-top:1.5px solid #333;
-  margin-top:18pt;
   padding-top:6pt;
 }
 
@@ -235,6 +244,14 @@ table.df{
 
 .df-left{font-size:8pt;color:#555;text-align:left;vertical-align:middle;}
 .df-right{font-size:8pt;color:#555;text-align:right;vertical-align:middle;}
+.df-bar{background:#fff;border-top:2px solid #111;padding-top:5pt;margin-top:6pt;}
+.df-bar td{vertical-align:middle;padding:3pt 0;}
+.df-bar .db-left{font-size:9pt;font-weight:700;color:#111;text-align:left;width:33%;}
+.df-bar .db-mid{font-size:8.5pt;color:#333;text-align:center;width:34%;}
+.df-bar .db-right{text-align:right;width:33%;white-space:nowrap;}
+.df-bar .db-right span{font-size:7pt;color:#555;vertical-align:middle;}
+.df-bar .db-right img{height:18pt;vertical-align:middle;margin-left:4pt;}
+.df-mgr{font-size:8pt;color:#555;text-align:right;vertical-align:middle;}
 
 /* =========================================================
    TYPOGRAPHY
@@ -301,8 +318,8 @@ table.df{
     <div class="card-head"><div class="card-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h2>Borrower Information</h2></div>
     <div class="card-body">
       <div class="field"><label>Letter Date</label><input type="date" id="f-date" onchange="updateRepayPill();onTotalLoan();"/></div>
-      <div class="field"><label>Client / Borrower Full Name</label><input type="text" id="f-borrower" placeholder="e.g. Omobo Olankunwa"/></div>
-      <div class="field"><label>Client Address</label><textarea id="f-address" rows="2" placeholder="e.g. 49/51 Yetunde Road, Ifako&#10;Gbagada, Lagos."></textarea></div>
+      <div class="field"><label>Client / Borrower Full Name <span class="req">*</span></label><input type="text" id="f-borrower" placeholder="e.g. Omobo Olankunwa" required/></div>
+      <div class="field"><label>Client Address <span class="req">*</span></label><textarea id="f-address" rows="2" placeholder="e.g. 49/51 Yetunde Road, Ifako&#10;Gbagada, Lagos." required></textarea></div>
       <div class="field"><label>Salutation</label><select id="f-salutation"><option value="Sir">Dear Sir</option><option value="Ma">Dear Ma</option><option value="Sir/Ma">Dear Sir/Ma</option></select></div>
     </div>
   </div>
@@ -313,17 +330,17 @@ table.df{
     <div class="card-body">
       <div class="two-col">
         <div class="field">
-          <label>Facility Amount (NGN)</label>
-          <input type="number" id="f-amount" placeholder="e.g. 400000" min="0" oninput="onAmount()"/>
+          <label>Facility Amount (NGN) <span class="req">*</span></label>
+          <input type="number" id="f-amount" placeholder="e.g. 400000" min="0" oninput="onAmount()" required/>
           <div class="pill" id="pill-amount">Enter amount above</div>
         </div>
         <div class="field">
-          <label>Tenor (months)</label>
-          <input type="number" id="f-tenor" placeholder="e.g. 1" min="1" max="120" oninput="onTenor()"/>
+          <label>Tenor (months) <span class="req">*</span></label>
+          <input type="number" id="f-tenor" placeholder="e.g. 1" min="1" max="120" oninput="onTenor()" required/>
           <div class="pill" id="pill-tenor">Enter number of months</div>
         </div>
       </div>
-      <div class="field"><label>Loan Purpose / Type</label><input type="text" id="f-purpose" placeholder="e.g. Staff Loan"/></div>
+      <div class="field"><label>Loan Purpose / Type <span class="req">*</span></label><input type="text" id="f-purpose" placeholder="e.g. Staff Loan" required/></div>
       <div class="field">
         <label>Drawdown</label>
         <div class="two-col" style="margin-bottom:4px;">
@@ -345,32 +362,32 @@ table.df{
     <div class="card-head"><div class="card-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h2>Rates, Fees &amp; Repayment</h2></div>
     <div class="card-body">
       <div class="field">
-        <label>Interest Rate (%)</label>
+        <label>Interest Rate (%) <span class="req">*</span></label>
         <div class="two-col" style="margin-bottom:4px">
-          <div class="input-affix"><input type="number" id="f-interest" placeholder="e.g. 3" min="0" step="0.01" oninput="onInterest()"/><span class="affix-tag">%</span></div>
+          <div class="input-affix"><input type="number" id="f-interest" placeholder="e.g. 3" min="0" step="0.01" oninput="onInterest()" required/><span class="affix-tag">%</span></div>
           <select id="f-interest-type" onchange="onInterest()"><option value="outstanding">on outstanding principal</option><option value="flat">Flat rate</option></select>
         </div>
         <div class="pill" id="pill-interest">Enter rate above</div>
       </div>
       <div class="field">
-        <label>Management Fee (%)</label>
-        <div class="input-affix" style="margin-bottom:4px"><input type="number" id="f-mgmt" placeholder="e.g. 1" min="0" step="0.01" oninput="onMgmt()"/><span class="affix-tag">% flat</span></div>
+        <label>Management Fee (%) <span class="req">*</span></label>
+        <div class="input-affix" style="margin-bottom:4px"><input type="number" id="f-mgmt" placeholder="e.g. 1" min="0" step="0.01" oninput="onMgmt()" required/><span class="affix-tag">% flat</span></div>
         <div class="pill" id="pill-mgmt">Enter fee above</div>
       </div>
       <div class="field">
-        <label>Monthly Repayment Amount (NGN)</label>
-        <input type="number" id="f-repay" placeholder="e.g. 50000" min="0" oninput="onRepay()"/>
+        <label>Monthly Repayment Amount (NGN) <span class="req">*</span></label>
+        <input type="number" id="f-repay" placeholder="e.g. 50000" min="0" oninput="onRepay()" required/>
         <div class="pill" id="pill-repay">Enter repayment amount above</div>
       </div>
       <div class="field">
-        <label>Total Repayment Amount / Principal + Interest (NGN)</label>
-        <input type="number" id="f-total-loan" placeholder="e.g. 1200000" min="0" oninput="onTotalLoan()"/>
+        <label>Total Repayment Amount / Principal + Interest (NGN) <span class="req">*</span></label>
+        <input type="number" id="f-total-loan" placeholder="e.g. 1200000" min="0" oninput="onTotalLoan()" required/>
         <div class="pill" id="pill-total-loan">Enter total repayment amount above</div>
       </div>
-      <div class="field"><label>Collateral / Security</label><input type="text" id="f-collateral" placeholder="e.g. Not Applicable"/></div>
+      <div class="field"><label>Collateral / Security <span class="req">*</span></label><input type="text" id="f-collateral" placeholder="e.g. Not Applicable" required/></div>
       <div class="field">
-        <label>Insurance Premium (%)</label>
-        <div class="input-affix" style="margin-bottom:4px"><input type="number" id="f-insurance" placeholder="e.g. 0.5" min="0" step="0.01" oninput="onInsurance()"/><span class="affix-tag">%</span></div>
+        <label>Insurance Premium (%) <span class="req">*</span></label>
+        <div class="input-affix" style="margin-bottom:4px"><input type="number" id="f-insurance" placeholder="e.g. 0.5" min="0" step="0.01" oninput="onInsurance()" required/><span class="affix-tag">%</span></div>
         <div class="pill" id="pill-insurance">Enter rate above</div>
       </div>
     </div>
@@ -425,10 +442,16 @@ table.df{
     <tr><td class="tl">Insurance</td><td id="d-insurance"></td></tr>
   </table>
 
-  <table class="df"><tr>
+  <div class="df-wrap"><table class="df"><tr>
     <td class="df-left">Directors: Kehinde Ilesanmi, Kayode Omosebi, Ejemen Roluga</td>
-    <td class="df-right">www.dotmfb.com</td>
-  </tr></table>
+    <td class="df-mgr">Managing Director: Udochi Victor</td>
+  </tr><tr><td colspan="2">
+  <table class="df-bar" width="100%"><tr>
+    <td class="db-left"><strong>Do life</strong><br/>with &#9899; MFB</td>
+    <td class="db-mid">www.dotmfb.com</td>
+    <td class="db-right"><span>LICENSED BY<br/>THE CBN</span> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAiACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9TsYr54/bP+PGr/AnwXoNzoa2a3us6j/Z7XN3+8a1jMUjGWOHH7xgyxjDfKM817l4m8QWXhbw/qOs6jI0dhp8D3VwyIXYRopYkAc9q+MvGfiq38ZvbfEzULrVbOUpcL4f1q0tFktdNYMGWGZuWTzAozlehH3ug83FYqVG1KnG83ey0/UHFVIN83L59jz+8/bQ+Inh7TRNBcyalrLtFcNZaiLdo3MUWyWHhV8nfIA28ZC7vrX6GeFdWXxH4a0jVliWAX1pFdCJJBII96BtoYcNjOMjr1r85pvh9cXHjCDxn4yZ4ofFhY6m7zwvHMHHzxadbo7faVkDRK4dRjHboPpP4KeL7P4W+KdE+Hs8d/pema1Z/adF0vU4sT2MgZ2FuwQlU3CORgowAEHAzzw0cXOMlGtCXLJ2u7LV+W//AATjw2Gq0YuNaqpv79F5rQ+nCuTRTUYYOPWivctc6+c4r40WE2ofCPxra2sZmnn0a8jRBH5hZmhcD5f4uv3e9fl14AvNTFhrvh+68SXNpaohvrGxnjPk39wNpWBm3ASZDXDgdvI29q/XeRfmJwSDgY9Pfnjj6V+W/wAV/FE/iH4xarFa+ApNCki1NzJpcs7STidJxmWJFTc3nx/OAOPmPfNeRmmH9tBNK7W3qeRjas8JVpV4P3b2a7p7mzrPgptFvbqbUVbwraC/trXWNXljXdp0Ulq0rRBQ2UySzZXa3yR/OozUX7K0niLxd+07oOpare3uqC1nnzJOhUoiWrht5JJZgzopJJ5BAJABNb4iQfEM6Bqt/wCIPCWvQWV/cw3l2+oQypDLKny73/dHaFQyptJzzntXvX7Avi19duPElnP4OlsbyOKOa58SJcefBK7OxFmrYH+rUqffcT/FXLThUxWL9rVi1tbmtfRWe3RvUiddVKtPC0nZaybs1rfRartufYwJUdNx7n1NFL1JIOM0V9Oe1e32SOT5S5HBDgAjtnbmsjT9C03/AISrUNT/ALOtP7SNvBCbzyF84oNxC78Z2g84zjNFFSFjWuADcW6kZDNgj1BVsj9B+VYeh6Lp/hzw/YW+k2FtpduzJIYrKFYULPIhdsKAMtk5PfJzRRQFjorcAKwAwAxAHoKKKKBn/9k=" alt="CBN"/> <span>DEPOSITS<br/>INSURED BY</span> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAeAEADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9SJNWsotTh017yBNQmieeK0aQCV41KhnC5yVBZQT0G4etYvh74meEfFuqT6ZofijR9X1GBWaW0sb6KaWMKdrFkViQAcA+hrhfEIH/AA1b4JOOf+ET1f8A9KbGvyK0LxH4p+H/AMVdd8aeETNBfeHtUnuprqFNyRRtctHiUDrG5YIQePmHtXvYHLFjYy9+zSTXa7bVvw/ExnU5Oh+2Fp8SfCd/4nk8N23ibSLjxBGzI+lRXsbXKsoywMYbcCByeOKxx8fPhmZfK/4WD4YEmdu06xbgg+n36/OH9krxwvxP/b8j8Xiz+wNrR1C8a23b/KZrRtyhu4yDg+mK5P8AZE/Z08M/tG/EDx3pHiW8vtNg02za8gubCREKOZypL71IKgc44+tdssno0eZ1qjSjGLdknu2mvkT7VvZH68prWnyaSdUS+tn0wRGc3iyqYfLAyX35xtABOc44rN8KePvDPjuO4k8N+INM19LYqJm027juBEWyVDbCcZwcZ9K/MX9jbxXq/hzVfjR8PbXVH1fwovhnV50KMTAJIcxrcRjkKJFY5x1yvXFZv7LPjnWPht+yX8fNc8PyvaarGdLt4rqHhoBKzRNID2Kq5IPY4NZzyXk50p3acEvPm79rAqt7aH6Y678dvhz4Y13+xdX8deHtN1YNsazudShSRG9GBb5T7HFdtBPFdQRzQyJNDIodJI2DKykZBBHUH1r8tf2Y/wBjXwP8cPgBr/jXxF4sudH1hbq5jF350f2bTxGAfMuFfl92dxJZflIwe9foN+z38KNK+DHws0nw1ouvXviTTYgZor+7nWVWD8nytvyrHnJVRkDJ5NcGOwuGw14U6jck7NONl8mXCUpatGT4hB/4ar8FHBx/wimrc44/4+bGvFv2f/2U/Dnwj8f+NdV1jxhZ+KtP8TWtzps+jzaY0Q2yzCVlbLNuGOOg619ilFLh9o3gYDY5Appt4jKJTEhkA279ozj0zXNDFzpwdOOiaSfybf8AVhuN3c+LPgt+xv4a+Bfx4tvHWmePFuNEgF0LPSriybzFjlR41Qz7sMUOeduTgeteZ/8ADtu2kvL2VPi+kMM0hM62+kSA7WcYU4mweWHBr9H2t4mGDEhHuoqO5tTLFtikNu2Qd6KCevTkd67I5tiVJzU3dpLpstunmZulofNPwe/Zm+HPwT+HfijQ9E11r3XPEmny6fd69epukw0bqqrGoARASW25ycck4GMb9nH9lfwz8FfAfjrwx4i8T23jHRfFSRw3S/Ymt1RI0ZWBO9jk+YCCMEEV9QnSr4K23UgGySv+jJgZGBn6U5tLvCr4vwrfwEW6fJz+vb8qxljqslNSm3zNN/LbppbyDlfb+vvPzw1v/gnFYQ6ndx6D8XTZ+GLmQGS1u7CSSbaDwr7HVJCOxKjp0r7U/Z2+FXhn4LfDi28J+GL+41O2tZGkuLu6cs8szfebHRBxwqjAx3OSe5Ok3ihAmoBVBOV+zJz6Vcsbaa2jZZrj7QSeD5YTH5UYrMK2KpqnUndL0/GyVxwjyvb+vvP/2Q==" alt="NDIC"/></td>
+  </tr></table></div>
+  </td></tr></table>
 </div><!-- end page 1 -->
 <!-- PAGE 2: General Conditions onwards -->
 <div class="doc-page">
@@ -454,17 +477,20 @@ table.df{
         <li>DOT MFB reserves the right to report you to any third party, if you are in default of any terms of this funding.</li>
         <li>DOT MFB reserves the right to dispose of, foreclose or realize the security / collateral pledged in case of default or breach of any of the terms and conditions of the offer.</li>
         <li>At the expiration or termination of the funding, if any of the principal amount and accrued interest or other fees are not fully paid, the Bank reserves the right after 7 days&rsquo; notice to the Client to commence processes towards recovering the funding from the Client, and this shall include but not be limited to the disposal/sale of the security.</li>
-        <li>All payments hereunder shall be free and clear of, and without deduction of any taxes and withholding of any nature.</li>
-        <li>The Client shall immediately notify DOT MFB by any electronic means in the first instance and immediately thereafter by hand or courier services, as soon as it becomes aware of any litigation or administrative proceedings before any Authority or arbitral body that materially and adversely affects or may have a Material Adverse Effect on its assets or on its ability to perform and observe its obligations hereunder.</li>
-        <li>The Client shall promptly provide such additional documentation or information as DOT MFB from time-to-time requests about its assets, business and operations.</li>
       </ol>
     </div>
   </div><!-- end cb on page 2 -->
 
-  <table class="df"><tr>
+  <div class="df-wrap"><table class="df"><tr>
     <td class="df-left">Directors: Kehinde Ilesanmi, Kayode Omosebi, Ejemen Roluga</td>
-    <td class="df-right">www.dotmfb.com</td>
-  </tr></table>
+    <td class="df-mgr">Managing Director: Udochi Victor</td>
+  </tr><tr><td colspan="2">
+  <table class="df-bar" width="100%"><tr>
+    <td class="db-left"><strong>Do life</strong><br/>with &#9899; MFB</td>
+    <td class="db-mid">www.dotmfb.com</td>
+    <td class="db-right"><span>LICENSED BY<br/>THE CBN</span> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAiACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9TsYr54/bP+PGr/AnwXoNzoa2a3us6j/Z7XN3+8a1jMUjGWOHH7xgyxjDfKM817l4m8QWXhbw/qOs6jI0dhp8D3VwyIXYRopYkAc9q+MvGfiq38ZvbfEzULrVbOUpcL4f1q0tFktdNYMGWGZuWTzAozlehH3ug83FYqVG1KnG83ey0/UHFVIN83L59jz+8/bQ+Inh7TRNBcyalrLtFcNZaiLdo3MUWyWHhV8nfIA28ZC7vrX6GeFdWXxH4a0jVliWAX1pFdCJJBII96BtoYcNjOMjr1r85pvh9cXHjCDxn4yZ4ofFhY6m7zwvHMHHzxadbo7faVkDRK4dRjHboPpP4KeL7P4W+KdE+Hs8d/pema1Z/adF0vU4sT2MgZ2FuwQlU3CORgowAEHAzzw0cXOMlGtCXLJ2u7LV+W//AATjw2Gq0YuNaqpv79F5rQ+nCuTRTUYYOPWivctc6+c4r40WE2ofCPxra2sZmnn0a8jRBH5hZmhcD5f4uv3e9fl14AvNTFhrvh+68SXNpaohvrGxnjPk39wNpWBm3ASZDXDgdvI29q/XeRfmJwSDgY9Pfnjj6V+W/wAV/FE/iH4xarFa+ApNCki1NzJpcs7STidJxmWJFTc3nx/OAOPmPfNeRmmH9tBNK7W3qeRjas8JVpV4P3b2a7p7mzrPgptFvbqbUVbwraC/trXWNXljXdp0Ulq0rRBQ2UySzZXa3yR/OozUX7K0niLxd+07oOpare3uqC1nnzJOhUoiWrht5JJZgzopJJ5BAJABNb4iQfEM6Bqt/wCIPCWvQWV/cw3l2+oQypDLKny73/dHaFQyptJzzntXvX7Avi19duPElnP4OlsbyOKOa58SJcefBK7OxFmrYH+rUqffcT/FXLThUxWL9rVi1tbmtfRWe3RvUiddVKtPC0nZaybs1rfRartufYwJUdNx7n1NFL1JIOM0V9Oe1e32SOT5S5HBDgAjtnbmsjT9C03/AISrUNT/ALOtP7SNvBCbzyF84oNxC78Z2g84zjNFFSFjWuADcW6kZDNgj1BVsj9B+VYeh6Lp/hzw/YW+k2FtpduzJIYrKFYULPIhdsKAMtk5PfJzRRQFjorcAKwAwAxAHoKKKKBn/9k=" alt="CBN"/> <span>DEPOSITS<br/>INSURED BY</span> <img src="data:image/jpeg;base64,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" alt="NDIC"/></td>
+  </tr></table></div>
+  </td></tr></table>
 </div><!-- end page 2 -->
 
 <!-- PAGE 3: Events of Default (overflow from page 2) -->
@@ -477,7 +503,10 @@ table.df{
   <div class="cb">
     <div class="cs">
       <div class="ch">Other conditions (continued):</div>
-      <ol class="co" type="i" start="10">
+      <ol class="co" type="i" start="7">
+        <li>All payments hereunder shall be free and clear of, and without deduction of any taxes and withholding of any nature.</li>
+        <li>The Client shall immediately notify DOT MFB by any electronic means in the first instance and immediately thereafter by hand or courier services, as soon as it becomes aware of any litigation or administrative proceedings before any Authority or arbitral body that materially and adversely affects or may have a Material Adverse Effect on its assets or on its ability to perform and observe its obligations hereunder.</li>
+        <li>The Client shall promptly provide such additional documentation or information as DOT MFB from time-to-time requests about its assets, business and operations.</li>
         <li>All cost and expenses incidental to the restructuring / processing, monitoring, documentation, disbursement and recovery of the funding, including the project management fee as well as the cost of enforcing the terms and conditions therein, shall be fully borne by the Client.</li>
       </ol>
     </div>
@@ -499,10 +528,16 @@ table.df{
     </div>
   </div>
 
-  <table class="df"><tr>
+  <div class="df-wrap"><table class="df"><tr>
     <td class="df-left">Directors: Kehinde Ilesanmi, Kayode Omosebi, Ejemen Roluga</td>
-    <td class="df-right">www.dotmfb.com</td>
-  </tr></table>
+    <td class="df-mgr">Managing Director: Udochi Victor</td>
+  </tr><tr><td colspan="2">
+  <table class="df-bar" width="100%"><tr>
+    <td class="db-left"><strong>Do life</strong><br/>with &#9899; MFB</td>
+    <td class="db-mid">www.dotmfb.com</td>
+    <td class="db-right"><span>LICENSED BY<br/>THE CBN</span> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAiACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9TsYr54/bP+PGr/AnwXoNzoa2a3us6j/Z7XN3+8a1jMUjGWOHH7xgyxjDfKM817l4m8QWXhbw/qOs6jI0dhp8D3VwyIXYRopYkAc9q+MvGfiq38ZvbfEzULrVbOUpcL4f1q0tFktdNYMGWGZuWTzAozlehH3ug83FYqVG1KnG83ey0/UHFVIN83L59jz+8/bQ+Inh7TRNBcyalrLtFcNZaiLdo3MUWyWHhV8nfIA28ZC7vrX6GeFdWXxH4a0jVliWAX1pFdCJJBII96BtoYcNjOMjr1r85pvh9cXHjCDxn4yZ4ofFhY6m7zwvHMHHzxadbo7faVkDRK4dRjHboPpP4KeL7P4W+KdE+Hs8d/pema1Z/adF0vU4sT2MgZ2FuwQlU3CORgowAEHAzzw0cXOMlGtCXLJ2u7LV+W//AATjw2Gq0YuNaqpv79F5rQ+nCuTRTUYYOPWivctc6+c4r40WE2ofCPxra2sZmnn0a8jRBH5hZmhcD5f4uv3e9fl14AvNTFhrvh+68SXNpaohvrGxnjPk39wNpWBm3ASZDXDgdvI29q/XeRfmJwSDgY9Pfnjj6V+W/wAV/FE/iH4xarFa+ApNCki1NzJpcs7STidJxmWJFTc3nx/OAOPmPfNeRmmH9tBNK7W3qeRjas8JVpV4P3b2a7p7mzrPgptFvbqbUVbwraC/trXWNXljXdp0Ulq0rRBQ2UySzZXa3yR/OozUX7K0niLxd+07oOpare3uqC1nnzJOhUoiWrht5JJZgzopJJ5BAJABNb4iQfEM6Bqt/wCIPCWvQWV/cw3l2+oQypDLKny73/dHaFQyptJzzntXvX7Avi19duPElnP4OlsbyOKOa58SJcefBK7OxFmrYH+rUqffcT/FXLThUxWL9rVi1tbmtfRWe3RvUiddVKtPC0nZaybs1rfRartufYwJUdNx7n1NFL1JIOM0V9Oe1e32SOT5S5HBDgAjtnbmsjT9C03/AISrUNT/ALOtP7SNvBCbzyF84oNxC78Z2g84zjNFFSFjWuADcW6kZDNgj1BVsj9B+VYeh6Lp/hzw/YW+k2FtpduzJIYrKFYULPIhdsKAMtk5PfJzRRQFjorcAKwAwAxAHoKKKKBn/9k=" alt="CBN"/> <span>DEPOSITS<br/>INSURED BY</span> <img src="data:image/jpeg;base64,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" alt="NDIC"/></td>
+  </tr></table></div>
+  </td></tr></table>
   </div><!-- end page 3 (events of default) -->
     <div class="doc-page">
     <table class="dh"><tr>
@@ -532,10 +567,16 @@ table.df{
     <table class="sl-table"><tr><td class="sl-label">Name:</td><td class="sl-rule">&nbsp;</td></tr></table>
     <table class="sl-table"><tr><td class="sl-label">Signature:</td><td class="sl-rule">&nbsp;</td></tr></table>
     <table class="sl-table"><tr><td class="sl-label">Date:</td><td class="sl-rule">&nbsp;</td></tr></table>
-    <table class="df" style="margin-top:24pt;"><tr>
-      <td class="df-left">Directors: Kehinde Ilesanmi, Kayode Omosebi, Ejemen Roluga</td>
-      <td class="df-right">www.dotmfb.com</td>
-    </tr></table>
+    <div class="df-wrap"><table class="df"><tr>
+    <td class="df-left">Directors: Kehinde Ilesanmi, Kayode Omosebi, Ejemen Roluga</td>
+    <td class="df-mgr">Managing Director: Udochi Victor</td>
+  </tr><tr><td colspan="2">
+  <table class="df-bar" width="100%"><tr>
+    <td class="db-left"><strong>Do life</strong><br/>with &#9899; MFB</td>
+    <td class="db-mid">www.dotmfb.com</td>
+    <td class="db-right"><span>LICENSED BY<br/>THE CBN</span> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAiACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9TsYr54/bP+PGr/AnwXoNzoa2a3us6j/Z7XN3+8a1jMUjGWOHH7xgyxjDfKM817l4m8QWXhbw/qOs6jI0dhp8D3VwyIXYRopYkAc9q+MvGfiq38ZvbfEzULrVbOUpcL4f1q0tFktdNYMGWGZuWTzAozlehH3ug83FYqVG1KnG83ey0/UHFVIN83L59jz+8/bQ+Inh7TRNBcyalrLtFcNZaiLdo3MUWyWHhV8nfIA28ZC7vrX6GeFdWXxH4a0jVliWAX1pFdCJJBII96BtoYcNjOMjr1r85pvh9cXHjCDxn4yZ4ofFhY6m7zwvHMHHzxadbo7faVkDRK4dRjHboPpP4KeL7P4W+KdE+Hs8d/pema1Z/adF0vU4sT2MgZ2FuwQlU3CORgowAEHAzzw0cXOMlGtCXLJ2u7LV+W//AATjw2Gq0YuNaqpv79F5rQ+nCuTRTUYYOPWivctc6+c4r40WE2ofCPxra2sZmnn0a8jRBH5hZmhcD5f4uv3e9fl14AvNTFhrvh+68SXNpaohvrGxnjPk39wNpWBm3ASZDXDgdvI29q/XeRfmJwSDgY9Pfnjj6V+W/wAV/FE/iH4xarFa+ApNCki1NzJpcs7STidJxmWJFTc3nx/OAOPmPfNeRmmH9tBNK7W3qeRjas8JVpV4P3b2a7p7mzrPgptFvbqbUVbwraC/trXWNXljXdp0Ulq0rRBQ2UySzZXa3yR/OozUX7K0niLxd+07oOpare3uqC1nnzJOhUoiWrht5JJZgzopJJ5BAJABNb4iQfEM6Bqt/wCIPCWvQWV/cw3l2+oQypDLKny73/dHaFQyptJzzntXvX7Avi19duPElnP4OlsbyOKOa58SJcefBK7OxFmrYH+rUqffcT/FXLThUxWL9rVi1tbmtfRWe3RvUiddVKtPC0nZaybs1rfRartufYwJUdNx7n1NFL1JIOM0V9Oe1e32SOT5S5HBDgAjtnbmsjT9C03/AISrUNT/ALOtP7SNvBCbzyF84oNxC78Z2g84zjNFFSFjWuADcW6kZDNgj1BVsj9B+VYeh6Lp/hzw/YW+k2FtpduzJIYrKFYULPIhdsKAMtk5PfJzRRQFjorcAKwAwAxAHoKKKKBn/9k=" alt="CBN"/> <span>DEPOSITS<br/>INSURED BY</span> <img src="data:image/jpeg;base64,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" alt="NDIC"/></td>
+  </tr></table></div>
+  </td></tr></table>
   </div><!-- end page 4 (acceptance + memorandum) -->
 
 </div>
@@ -767,6 +808,22 @@ function populate() {
 
 /* ── PDF DOWNLOAD ── */
 async function downloadPDF() {
+  /* 0. Validate required fields */
+  var requiredIds = ['f-borrower','f-address','f-amount','f-tenor','f-purpose',
+                     'f-interest','f-mgmt','f-repay','f-total-loan','f-collateral','f-insurance'];
+  var missing = [];
+  requiredIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    el.classList.add('touched');
+    if (!el.value.trim()) missing.push(el);
+  });
+  // if (missing.length > 0) {
+  //   missing[0].focus();
+  //   missing[0].scrollIntoView({behavior:'smooth', block:'center'});
+  //   alert('Please fill in all required fields (marked with *) before downloading.');
+  //   return;
+  // }
+
   /* 1. sync pfItems from inputs */
   var inputs = document.querySelectorAll('#pf-list input');
   inputs.forEach(function(inp, i) { pfItems[i] = inp.value; });
@@ -815,7 +872,10 @@ async function downloadPDF() {
 
   for (var i = 0; i < pages.length; i++) {
     if (i > 0) pdf.addPage();
+    /* Hide all sibling pages so html2canvas only sees the target page */
+    pages.forEach(function(p, j){ p.style.visibility = j === i ? 'visible' : 'hidden'; });
     var canvas  = await html2canvas(pages[i], canvasOpts);
+    pages.forEach(function(p){ p.style.visibility = ''; });
     var imgData = canvas.toDataURL('image/jpeg', 0.98);
     pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
   }
@@ -834,6 +894,11 @@ async function downloadPDF() {
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
   renderPFList();
+
+  /* Mark required fields as touched on blur so red border shows after interaction */
+  document.querySelectorAll('input[required], textarea[required]').forEach(function(el) {
+    el.addEventListener('blur', function() { el.classList.add('touched'); });
+  });
 
   /* Clone the DOT logo src into any placeholder headers on overflow pages */
   var sourceLogo = document.querySelector('.dh-logo:not(.dh-logo-clone)');
