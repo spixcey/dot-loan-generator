@@ -404,7 +404,7 @@ table.df{
     <div class="card-body">
       <p style="font-size:11px;color:#666;margin-bottom:10px;">Edit, reorder, add or remove the prior-to-funding bullet points. These will appear numbered in the document.</p>
       <ul class="pf-list" id="pf-list"></ul>
-      <button class="pf-add" onclick="addPF()">+ Add condition</button>
+      <button class="pf-add" id="pf-add-btn" onclick="addPF()">+ Add condition</button>
     </div>
   </div>
 
@@ -477,7 +477,6 @@ table.df{
         <li>The Client agrees that a late payment penalty of 10% flat per month shall apply to any unpaid due installment(s) in addition to the interest rate and hereby gives the Bank the power and authority to deduct such interest at source</li>
         <li>DOT MFB reserves the right to report you to any third party, if you are in default of any terms of this funding.</li>
         <li>DOT MFB reserves the right to dispose of, foreclose or realize the security / collateral pledged in case of default or breach of any of the terms and conditions of the offer.</li>
-        <li>At the expiration or termination of the funding, if any of the principal amount and accrued interest or other fees are not fully paid, the Bank reserves the right after 7 days&rsquo; notice to the Client to commence processes towards recovering the funding from the Client, and this shall include but not be limited to the disposal/sale of the security.</li>
       </ol>
     </div>
   </div><!-- end cb on page 2 -->
@@ -500,7 +499,8 @@ table.df{
   <div class="cb">
     <div class="cs">
       <div class="ch">Other conditions (continued):</div>
-      <ol class="co" type="i" start="7">
+      <ol class="co" type="i" start="6">
+        <li>At the expiration or termination of the funding, if any of the principal amount and accrued interest or other fees are not fully paid, the Bank reserves the right after 7 days&rsquo; notice to the Client to commence processes towards recovering the funding from the Client, and this shall include but not be limited to the disposal/sale of the security.</li>
         <li>All payments hereunder shall be free and clear of, and without deduction of any taxes and withholding of any nature.</li>
         <li>The Client shall immediately notify DOT MFB by any electronic means in the first instance and immediately thereafter by hand or courier services, as soon as it becomes aware of any litigation or administrative proceedings before any Authority or arbitral body that materially and adversely affects or may have a Material Adverse Effect on its assets or on its ability to perform and observe its obligations hereunder.</li>
         <li>The Client shall promptly provide such additional documentation or information as DOT MFB from time-to-time requests about its assets, business and operations.</li>
@@ -621,6 +621,8 @@ function renderPFList() {
       + '<button class="pf-del" onclick="deletePF(' + i + ')">&#x2715;</button>';
     ul.appendChild(li);
   });
+  var addBtn = document.getElementById('pf-add-btn');
+  if (addBtn) addBtn.style.display = pfItems.length >= 8 ? 'none' : '';
 }
 
 function deletePF(i) {
@@ -629,6 +631,7 @@ function deletePF(i) {
 }
 
 function addPF() {
+  if (pfItems.length >= 8) return;
   pfItems.push('');
   renderPFList();
   var inputs = document.querySelectorAll('#pf-list input');
